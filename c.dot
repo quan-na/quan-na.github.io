@@ -3,10 +3,25 @@ graph {
   node [shape=tab, style=filled]
   edge [color=white]
   home [shape=house, fillcolor="#e7ebf1",
-       label="C language"]
+        label="C language"]
+
   syntax [fillcolor="#d0d7e3",
-         label="Syntax"]
+          label="Syntax"]
   compiler [fillcolor="#d0d7e3",
-           label="Compiler"]
+            label="Compiler"]
   home -- {syntax, compiler}
+
+  comments [fillcolor="#b9c3d5",
+            label="Comments"]
+  syntax -- comments
+
+  singlelinecomments [shape=note, fillcolor="#a2afc7",
+                      label="// Single-line comments start with // - only available in C99 and later."]
+  multilinecomments [fillcolor="#a2afc7",
+                     label="/*\lMulti-line comments look like this. They work in C89 as well.\l*/"]
+  comments -- {singlelinecomments, multilinecomments}
+
+  trickcomments [shape=note, fillcolor="#8b9bb9",
+                 label="/*\lMulti-line comment trick\lworked\l//*/"]
+  multilinecomments -- trickcomments
 }
