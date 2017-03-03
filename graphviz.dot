@@ -21,7 +21,8 @@
 (19) #000a1c
 */
 graph {
-  graph [layout=circo /*, splines=ortho, nodesep=1*/]
+  graph [layout=circo, bgcolor=black /*, splines=ortho, nodesep=1*/]
+  edge [color=white]
   node [shape=tab, style=filled]
   home[shape=house, fillcolor="#e7ebf1",
        label="Home Node"]

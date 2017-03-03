@@ -1,0 +1,12 @@
+graph {
+  graph [layout=circo, bgcolor=black]
+  node [shape=tab, style=filled]
+  edge [color=white]
+  home [shape=house, fillcolor="#e7ebf1",
+       label="C language"]
+  syntax [fillcolor="#d0d7e3",
+         label="Syntax"]
+  compiler [fillcolor="#d0d7e3",
+           label="Compiler"]
+  home -- {syntax, compiler}
+}
