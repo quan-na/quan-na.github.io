@@ -1,0 +1,79 @@
+/*
+--> color scheme: royal blue monochrome
+(1) #e7ebf1
+(2) #d0d7e3
+(3) #b9c3d5
+(4) #a2afc7
+(5) #8b9bb9
+(6) #7387ab
+(7) #5c739d
+(8) #455f8f
+(9) #2e4b81
+(10) #173773
+(11) #002366 (royal-blue)
+(12) #00205d
+(13) #001d54
+(14) #001a4b
+(15) #001741
+(16) #001438
+(17) #00102f
+(18) #000d26
+(19) #000a1c
+*/
+graph {
+  graph [layout=circo /*, splines=ortho, nodesep=1*/]
+  node [shape=tab, style=filled]
+  home[shape=house, fillcolor="#e7ebf1",
+       label="Home Node"]
+  node1[fillcolor="#d0d7e3",
+        label="Lorem ipsum dolor sit amet"]
+  node2[fillcolor="#d0d7e3",
+        label="consectetur adipiscing elit"]
+  node3[fillcolor="#d0d7e3",
+        label="Maecenas quis dolor mi"]
+  node4[fillcolor="#d0d7e3",
+        label="Interdum et malesuada fames ac ante ipsum primis in faucibus"]
+  home -- {node1, node2, node3, node4}
+  node11[fillcolor="#b9c3d5",
+         label="Suspendisse interdum leo ac leo dignissim"]
+  node12[fillcolor="#b9c3d5",
+         label="rutrum consequat orci posuere"]
+  node13[fillcolor="#b9c3d5",
+         label="Etiam luctus varius tristique"]
+  node14[fillcolor="#b9c3d5",
+         label="Pellentesque egestas ullamcorper dapibus"]
+  node1 -- {node11, node12, node13, node14}
+  node21[fillcolor="#b9c3d5",
+         label="Suspendisse interdum leo ac leo dignissim"]
+  node22[fillcolor="#b9c3d5",
+         label="rutrum consequat orci posuere"]
+  node23[fillcolor="#b9c3d5",
+         label="Etiam luctus varius tristique"]
+  node24[fillcolor="#b9c3d5",
+         label="Pellentesque egestas ullamcorper dapibus"]
+  node2 -- {node21, node22, node23, node24}
+  node31[fillcolor="#b9c3d5",
+         label="Suspendisse interdum leo ac leo dignissim"]
+  node32[fillcolor="#b9c3d5",
+         label="rutrum consequat orci posuere"]
+  node33[fillcolor="#b9c3d5",
+         label="Etiam luctus varius tristique"]
+  node34[fillcolor="#b9c3d5",
+         label="Pellentesque egestas ullamcorper dapibus"]
+  node3 -- {node31, node32, node33, node34}
+  node41[fillcolor="#b9c3d5",
+         label="Suspendisse interdum leo ac leo dignissim"]
+  node42[fillcolor="#b9c3d5",
+         label="rutrum consequat orci posuere"]
+  node43[fillcolor="#b9c3d5",
+         label="Etiam luctus varius tristique"]
+  node44[fillcolor="#b9c3d5",
+         label="Pellentesque egestas ullamcorper dapibus"]
+  node4 -- {node41, node42, node43, node44}
+  node111[shape=note, fillcolor="#a2afc7",
+         label="Etiam luctus varius tristique"]
+  node112[shape=note, fillcolor="#a2afc7",
+         label="Pellentesque egestas ullamcorper dapibus"]
+  node11 -- {node111, node112}
+
+}
