@@ -1,0 +1,25 @@
+graph {
+  graph [layout=dot, bgcolor=black, splines=ortho]
+  edge [color=white]
+  node [shape=tab, style=filled]
+
+  home[shape=house, fillcolor="#e7ebf1",
+       label="English"]
+  node1[fillcolor="#d0d7e3",
+        label="Vocabulary"]
+  node2[fillcolor="#d0d7e3",
+        label="Phrases"]
+  node3[fillcolor="#d0d7e3",
+        label="Sentence Structure"]
+  node4[fillcolor="#d0d7e3",
+        label="Teen"]
+  home -- {node1, node2, node3, node4}
+
+  node11[fillcolor="#b9c3d5", label="procrastinate"]
+  node1 -- node11
+  node111[shape=note, fillcolor="#a2afc7",
+          label="postpone or delay needlessly"]
+  node112[shape=note, fillcolor="#a2afc7",
+          label="postpone doing what one should be doing"]
+  node11 -- {node111, node112}
+}

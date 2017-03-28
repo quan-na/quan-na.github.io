@@ -1,0 +1,24 @@
+graph {
+  graph [layout=dot, bgcolor=black, splines=ortho/*, nodesep=1*/]
+  edge [color=white]
+  node [shape=tab, style=filled]
+  home[shape=house, fillcolor="#e7ebf1",
+       label="氣功\nKhi cong"]
+  node1[fillcolor="#d0d7e3",
+        label="射彫英雄\nAnh hung Xa dieu"]
+  node2[fillcolor="#d0d7e3",
+        label=""]
+  node3[fillcolor="#d0d7e3",
+        label=""]
+  node4[fillcolor="#d0d7e3",
+        label=""]
+  home -- {node1, node2, node3, node4}
+
+  node11[fillcolor="#b9c3d5",
+         label="思定则情忘\nTu dinh tac Tinh vong\n体嘘则氣运\nThe hu tac Khi van\n心死则神活\nTam tu tac Than hoat\n阳盛则阴消\nDuong thinh tac Am tieu"]
+  node12[fillcolor="#b9c3d5", label=""]
+  node13[fillcolor="#b9c3d5", label=""]
+  node14[fillcolor="#b9c3d5", label=""]
+  node15[fillcolor="#b9c3d5", label=""]
+  node1 -- {node11, node12, node13, node14, node15}
+}
