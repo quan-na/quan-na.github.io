@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+    <head>
+        <title>QiGong notes</title>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+        <style>
+         body {
+             padding: 0px; margin: 0px;
+         }
+         #mynetwork {
+             display: block;
+             width: 100vw;
+             height: 100vh;
+             background-color: #dddddd;
+         }
+        </style>
+
+        <script type="text/javascript" src="vis.js"></script>
+        <script type="text/javascript">
+         var map = (function(){
+             var colors = [
+                 '#e7ebf1',
+                 '#d0d7e3',
+                 '#b9c3d5',
+                 '#a2afc7',
+                 '#8b9bb9',
+                 '#7387ab',
+                 '#5c739d',
+                 '#455f8f',
+                 '#2e4b81',
+                 '#173773',
+                 '#002366', // royal-blue
+                 '#00205d',
+                 '#001d54',
+                 '#001a4b',
+                 '#001741',
+                 '#001438',
+                 '#00102f',
+                 '#000d26',
+                 '#000a1c'
+             ];
+             var incrementalid = 1;
+             var idstack = [];
+             var nodes = [];
+             var edges = [];
+             var object = {
+                 inner : function(text) {
+                     var id = incrementalid; incrementalid++;
+                     if (idstack.length == 0) {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                     } else {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                         edges.push({from : idstack[idstack.length - 1], to : id});
+                     }
+                     idstack.push(id);
+                     return id;
+                 },
+                 leaf : function(text) {
+                     var id = incrementalid; incrementalid++;
+                     if (idstack.length == 0) {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                     } else {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                         edges.push({from : idstack[idstack.length - 1], to : id});
+                     }
+                     return id;
+                 },
+                 back : function() {
+                     return idstack.pop();
+                 },
+                 link : function(id1, id2) {
+                     edges.push({from : id1, to : id2});
+                 },
+                 data : function() {
+                     return {
+                         nodes : nodes,
+                         edges : edges
+                     };
+                 }
+             };
+             object.mm = object; // recursively indent
+             return object;
+         })();
+        </script>
+    </head>
+
+    <body>
+
+        <div id="mynetwork"></div>
+        <script type="text/javascript">
+         map.inner("氣功\nKhi cong");
+         map.mm.inner("射彫英雄\nAnh hung Xa dieu");
+         map.mm.mm.inner("思定则情忘\nTu dinh tac Tinh vong\n"
+                        +"体嘘则氣运\nThe hu tac Khi van\n"
+                        +"心死则神活\nTam tu tac Than hoat\n"
+                        +"阳盛则阴消\nDuong thinh tac Am tieu");
+         map.mm.mm.mm.leaf("node 1-1-1");
+         map.mm.mm.mm.leaf("node 1-1-2");
+         map.mm.mm.mm.leaf("node 1-1-3");
+         map.mm.mm.back();
+         map.mm.mm.inner("node 1-2");
+         map.mm.mm.mm.leaf("node 1-2-1");
+         map.mm.mm.mm.leaf("node 1-2-2");
+         map.mm.mm.mm.leaf("node 1-2-3");
+         map.mm.mm.back();
+         map.mm.back();
+         map.mm.inner("node 2");
+         map.mm.mm.inner("node 2-1");
+         map.mm.mm.mm.leaf("node 2-1-1");
+         map.mm.mm.mm.leaf("node 2-1-2");
+         map.mm.mm.mm.leaf("node 2-1-3");
+         map.mm.mm.back();
+         map.mm.mm.inner("node 2-2");
+         map.mm.mm.mm.leaf("node 2-2-1");
+         map.mm.mm.mm.leaf("node 2-2-2");
+         map.mm.mm.mm.leaf("node 2-2-3");
+         map.mm.mm.back();
+         map.mm.back();
+         map.mm.leaf("node 3");
+         // create a network
+         var container = document.getElementById('mynetwork');
+         var data = map.data();
+         var options = {
+             nodes: {
+                 shape: 'circle',
+                 size: 13,
+                 font: {
+                     size: 15,
+                     face: 'Josefin Sans'
+                 },
+                 borderWidth: 2,
+                 shadow:true
+             },
+             edges: {
+                 width: 2,
+                 shadow:true
+             }
+         };
+         network = new vis.Network(container, data, options);
+        </script>
+    </body>
+</html>
