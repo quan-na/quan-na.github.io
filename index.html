@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Network | Groups</title>
+        <title>🏠 Nguyen Anh Quan</title>
         <meta charset="UTF-8">
         <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
         <style>
@@ -42,11 +42,13 @@
              ];
              var incrementalid = 1;
              var idstack = [];
+             var urls = {};
              var nodes = [];
              var edges = [];
              var object = {
-                 inner : function(text) {
+                 inner : function(text, url) {
                      var id = incrementalid; incrementalid++;
+                     urls[id] = url;
                      if (idstack.length == 0) {
                          nodes.push({ id : id, label : text,
                                       color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
@@ -58,8 +60,9 @@
                      idstack.push(id);
                      return id;
                  },
-                 leaf : function(text) {
+                 leaf : function(text, url) {
                      var id = incrementalid; incrementalid++;
+                     urls[id] = url;
                      if (idstack.length == 0) {
                          nodes.push({ id : id, label : text,
                                       color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
@@ -81,6 +84,9 @@
                          nodes : nodes,
                          edges : edges
                      };
+                 },
+                 url : function(id) {
+                     return urls[id];
                  }
              };
              object.mm = object; // recursively indent
@@ -93,32 +99,18 @@
 
         <div id="mynetwork"></div>
         <script type="text/javascript">
-         map.inner("root Network");
-         map.mm.inner("node 1");
-         map.mm.mm.inner("node 1-1");
-         map.mm.mm.mm.leaf("node 1-1-1");
-         map.mm.mm.mm.leaf("node 1-1-2");
-         map.mm.mm.mm.leaf("node 1-1-3");
-         map.mm.mm.back();
-         map.mm.mm.inner("node 1-2");
-         map.mm.mm.mm.leaf("node 1-2-1");
-         map.mm.mm.mm.leaf("node 1-2-2");
-         map.mm.mm.mm.leaf("node 1-2-3");
-         map.mm.mm.back();
+         map.inner("🏠 Nguyen Anh Quan", "https://github.com/quan-na");
+         map.mm.inner("Projects");
+         map.mm.mm.leaf("Low Level Sql Query", 'https://github.com/quan-na/LowLevelSqlQuery');
+         map.mm.mm.leaf("Dot files", 'https://github.com/quan-na/dot-files');
+         map.mm.mm.leaf("PovRay Mind Palace", 'https://github.com/quan-na/mp-povray');
+         map.mm.mm.leaf("Closed Zero lang", 'https://github.com/quan-na/closed-zero-lang');
+         map.mm.mm.leaf("Quan ly Cung duong", 'https://github.com/quan-na/quan_ly_cung_duong');
          map.mm.back();
-         map.mm.inner("node 2");
-         map.mm.mm.inner("node 2-1");
-         map.mm.mm.mm.leaf("node 2-1-1");
-         map.mm.mm.mm.leaf("node 2-1-2");
-         map.mm.mm.mm.leaf("node 2-1-3");
-         map.mm.mm.back();
-         map.mm.mm.inner("node 2-2");
-         map.mm.mm.mm.leaf("node 2-2-1");
-         map.mm.mm.mm.leaf("node 2-2-2");
-         map.mm.mm.mm.leaf("node 2-2-3");
-         map.mm.mm.back();
+         map.mm.inner("Notes");
+         map.mm.mm.leaf("Qi-Gong", "qigong.html");
          map.mm.back();
-         map.mm.leaf("node 3");
+         map.mm.leaf("this page use Vis.js", "http://visjs.org/");
          // create a network
          var container = document.getElementById('mynetwork');
          var data = map.data();
@@ -139,6 +131,12 @@
              }
          };
          network = new vis.Network(container, data, options);
+         network.on("selectNode", function (params) {
+             if (params.nodes.length === 1) {
+                 if (typeof map.url(params.nodes[0]) != 'undefined')
+                     window.open(map.url(params.nodes[0]), '_blank');
+             }
+         });
         </script>
     </body>
 </html>

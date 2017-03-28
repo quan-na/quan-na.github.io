@@ -42,11 +42,13 @@
              ];
              var incrementalid = 1;
              var idstack = [];
+             var urls = {};
              var nodes = [];
              var edges = [];
              var object = {
-                 inner : function(text) {
+                 inner : function(text, url) {
                      var id = incrementalid; incrementalid++;
+                     urls[id] = url;
                      if (idstack.length == 0) {
                          nodes.push({ id : id, label : text,
                                       color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
@@ -58,8 +60,9 @@
                      idstack.push(id);
                      return id;
                  },
-                 leaf : function(text) {
+                 leaf : function(text, url) {
                      var id = incrementalid; incrementalid++;
+                     urls[id] = url;
                      if (idstack.length == 0) {
                          nodes.push({ id : id, label : text,
                                       color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
@@ -81,6 +84,9 @@
                          nodes : nodes,
                          edges : edges
                      };
+                 },
+                 url : function(id) {
+                     return urls[id];
                  }
              };
              object.mm = object; // recursively indent
@@ -94,7 +100,7 @@
         <div id="mynetwork"></div>
         <script type="text/javascript">
          map.inner("root Network");
-         map.mm.inner("node 1");
+         map.mm.inner("node 1", "qigong.html");
          map.mm.mm.inner("node 1-1");
          map.mm.mm.mm.leaf("node 1-1-1");
          map.mm.mm.mm.leaf("node 1-1-2");
@@ -139,6 +145,12 @@
              }
          };
          network = new vis.Network(container, data, options);
+         network.on("selectNode", function (params) {
+             if (params.nodes.length === 1) {
+                 if (typeof map.url(params.nodes[0]) != 'undefined')
+                     window.open(map.url(params.nodes[0]), '_blank');
+             }
+         });
         </script>
     </body>
 </html>
