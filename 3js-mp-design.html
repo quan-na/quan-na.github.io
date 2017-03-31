@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+    <head>
+        <title>3js MP web of thoughts</title>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+        <style>
+         body {
+             padding: 0px; margin: 0px;
+         }
+         #mynetwork {
+             display: block;
+             width: 100vw;
+             height: 100vh;
+             background-color: #dddddd;
+         }
+        </style>
+
+        <script type="text/javascript" src="vis.js"></script>
+        <script type="text/javascript">
+         var map = (function(){
+             var colors = [
+                 '#e7ebf1', '#d0d7e3', '#b9c3d5', '#a2afc7', '#8b9bb9',
+                 '#7387ab', '#5c739d', '#455f8f', '#2e4b81', '#173773',
+                 '#002366', // royal-blue
+                 '#00205d', '#001d54', '#001a4b', '#001741', '#001438',
+                 '#00102f', '#000d26', '#000a1c'
+             ];
+             var incrementalid = 1;
+             var idstack = [];
+             var urls = {};
+             var nodes = [];
+             var edges = [];
+             var object = {
+                 inner : function(text, url) {
+                     var id = incrementalid; incrementalid++;
+                     urls[id] = url;
+                     if (idstack.length == 0) {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                     } else {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                         edges.push({from : idstack[idstack.length - 1], to : id});
+                     }
+                     idstack.push(id);
+                     return id;
+                 },
+                 leaf : function(text, url) {
+                     var id = incrementalid; incrementalid++;
+                     urls[id] = url;
+                     if (idstack.length == 0) {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                     } else {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                         edges.push({from : idstack[idstack.length - 1], to : id});
+                     }
+                     return id;
+                 },
+                 back : function() {
+                     return idstack.pop();
+                 },
+                 link : function(id1, id2) {
+                     edges.push({from : id1, to : id2});
+                 },
+                 data : function() {
+                     return {
+                         nodes : nodes,
+                         edges : edges
+                     };
+                 },
+                 url : function(id) {
+                     return urls[id];
+                 }
+             };
+             object.mm = object; // recursively indent
+             return object;
+         })();
+        </script>
+    </head>
+
+    <body>
+
+        <div id="mynetwork"></div>
+        <script type="text/javascript">
+         map.inner("🎯Three.js Mind Palace");
+         map.mm.inner("Building Structure");
+         map.mm.mm.inner("Large Island");
+         map.mm.mm.mm.leaf("Tower");
+         map.mm.mm.mm.leaf("Door to Tower");
+         map.mm.mm.mm.leaf("Surounding Road�");
+         map.mm.mm.back();
+         map.mm.mm.inner("Small Island");
+         map.mm.mm.mm.leaf("Bridge");
+         map.mm.mm.mm.leaf("Tree�");
+         map.mm.mm.mm.leaf("Gate");
+         map.mm.mm.back();
+         map.mm.back();
+         map.mm.inner("Programming");
+         map.mm.mm.inner("Entity");
+         map.mm.mm.mm.leaf("Scene");
+         map.mm.mm.mm.leaf("Camera");
+         map.mm.mm.mm.leaf("Control and Physics");
+         map.mm.mm.mm.leaf("Showing Objects");
+         map.mm.mm.back();
+         map.mm.mm.inner("Loop");
+         map.mm.mm.mm.leaf("Scene change");
+         map.mm.mm.mm.leaf("Control");
+         map.mm.mm.mm.leaf("Physics");
+         map.mm.mm.mm.leaf("Tween/Update");
+         map.mm.mm.mm.leaf("Draw");
+         map.mm.mm.back();
+         map.mm.back();
+         // create a network
+         var container = document.getElementById('mynetwork');
+         var data = map.data();
+         var options = {
+             nodes: {
+                 shape: 'circle',
+                 size: 13,
+                 font: {
+                     size: 15,
+                     face: 'Josefin Sans'
+                 },
+                 borderWidth: 2,
+                 shadow:true
+             },
+             edges: {
+                 width: 2,
+                 shadow:true
+             }
+         };
+         network = new vis.Network(container, data, options);
+         network.on("selectNode", function (params) {
+             if (params.nodes.length === 1) {
+                 if (typeof map.url(params.nodes[0]) != 'undefined')
+                     window.open(map.url(params.nodes[0]), '_blank');
+             }
+         });
+        </script>
+    </body>
+</html>
