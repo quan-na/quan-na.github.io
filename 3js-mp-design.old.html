@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>🌆3js Mind Palace</title>
+        <title>3js MP web of thoughts</title>
         <meta charset="UTF-8">
         <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
         <style>
@@ -20,33 +20,21 @@
         <script type="text/javascript">
          var map = (function(){
              var colors = [
-                 '#e7ebf1',
-                 '#d0d7e3',
-                 '#b9c3d5',
-                 '#a2afc7',
-                 '#8b9bb9',
-                 '#7387ab',
-                 '#5c739d',
-                 '#455f8f',
-                 '#2e4b81',
-                 '#173773',
+                 '#e7ebf1', '#d0d7e3', '#b9c3d5', '#a2afc7', '#8b9bb9',
+                 '#7387ab', '#5c739d', '#455f8f', '#2e4b81', '#173773',
                  '#002366', // royal-blue
-                 '#00205d',
-                 '#001d54',
-                 '#001a4b',
-                 '#001741',
-                 '#001438',
-                 '#00102f',
-                 '#000d26',
-                 '#000a1c'
+                 '#00205d', '#001d54', '#001a4b', '#001741', '#001438',
+                 '#00102f', '#000d26', '#000a1c'
              ];
              var incrementalid = 1;
              var idstack = [];
              var urls = {};
              var nodes = [];
              var edges = [];
-             var addnode = function(text) {
+             var object = {
+                 inner : function(text, url) {
                      var id = incrementalid; incrementalid++;
+                     urls[id] = url;
                      if (idstack.length == 0) {
                          nodes.push({ id : id, label : text,
                                       color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
@@ -57,17 +45,22 @@
                      }
                      idstack.push(id);
                      return id;
-             };
-             var back = function() {
-                     return idstack.pop();
-             };
-             return {
-                 node : function(text, callback) {
-                     var id = addnode(text);
-                     if (typeof(callback) == 'function')
-                         callback(id);
-                     back();
+                 },
+                 leaf : function(text, url) {
+                     var id = incrementalid; incrementalid++;
+                     urls[id] = url;
+                     if (idstack.length == 0) {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                     } else {
+                         nodes.push({ id : id, label : text,
+                                      color : { background : idstack.length >= colors.length ? colors[colors.length - 1] : colors[idstack.length] }});
+                         edges.push({from : idstack[idstack.length - 1], to : id});
+                     }
                      return id;
+                 },
+                 back : function() {
+                     return idstack.pop();
                  },
                  link : function(id1, id2) {
                      edges.push({from : id1, to : id2});
@@ -78,12 +71,12 @@
                          edges : edges
                      };
                  },
-                 url : function(id, url) {
-                     if (typeof(url) != 'undefined')
-                         urls[id] = url;
+                 url : function(id) {
                      return urls[id];
                  }
              };
+             object.mm = object; // recursively indent
+             return object;
          })();
         </script>
     </head>
@@ -92,44 +85,34 @@
 
         <div id="mynetwork"></div>
         <script type="text/javascript">
-         map.node("🌆3js Mind Palace", function(id) {
-             map.node("✒Code", function(id) {
-                 map.node("Control and Physics loop", function(id) {
-                 });
-                 map.node("Update loop", function(id) {
-                 });
-                 map.node("Draw loop", function(id) {
-                 });
-             });
-             map.node("📐Structure", function(id) {
-                 map.node("🗻Small Island", function(id) {
-                     map.node("🚪Gate", function(id) {
-                         map.node("Torii");
-                     });
-                     map.node("🌲Tree", function(id) {
-                         map.node("Fractal");
-                     });
-                     map.node("🌉Bridge", function(id) {
-                         map.node("Roman");
-                     });
-                 });
-                 map.node("🗻Main Island", function(id) {
-                     map.node("🏯Tower", function(id) {
-                         map.node("Models", function(id) {
-                         });
-                         map.node("30 levels", function(id) {
-                             map.node("12 houses each level", function(id) {
-                                 map.node("2 floors each house");
-                                 map.node("model 1 house each month");
-                             });
-                             map.node("can be expanded later");
-                         });
-                     });
-                     map.node("🚵Garden", function(id) {
-                     });
-                 });
-             });
-         });
+         map.inner("🎯Three.js Mind Palace");
+         map.mm.inner("Building Structure");
+         map.mm.mm.inner("Large Island");
+         map.mm.mm.mm.leaf("Tower");
+         map.mm.mm.mm.leaf("Door to Tower");
+         map.mm.mm.mm.leaf("Surounding Road�");
+         map.mm.mm.back();
+         map.mm.mm.inner("Small Island");
+         map.mm.mm.mm.leaf("Bridge");
+         map.mm.mm.mm.leaf("Tree�");
+         map.mm.mm.mm.leaf("Gate");
+         map.mm.mm.back();
+         map.mm.back();
+         map.mm.inner("Programming");
+         map.mm.mm.inner("Entity");
+         map.mm.mm.mm.leaf("Scene");
+         map.mm.mm.mm.leaf("Camera");
+         map.mm.mm.mm.leaf("Control and Physics");
+         map.mm.mm.mm.leaf("Showing Objects");
+         map.mm.mm.back();
+         map.mm.mm.inner("Loop");
+         map.mm.mm.mm.leaf("Scene change");
+         map.mm.mm.mm.leaf("Control");
+         map.mm.mm.mm.leaf("Physics");
+         map.mm.mm.mm.leaf("Tween/Update");
+         map.mm.mm.mm.leaf("Draw");
+         map.mm.mm.back();
+         map.mm.back();
          // create a network
          var container = document.getElementById('mynetwork');
          var data = map.data();
