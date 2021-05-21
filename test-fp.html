@@ -141,8 +141,7 @@
 		// TODO: do something to check if this script is actually run
 	};
 }(jQuery, this, this.document, window.gwFingerPrint = window.gwFingerPrint || {});
-var eDiv = document.getelementById("fp");
-      eDiv.innnerText = gwFingerPrint.getFingerPrint();
+$('#fp').text(gwFingerPrint.getFingerPrint());
     </script>
   </body>
 </html>
