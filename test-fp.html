@@ -1,0 +1,147 @@
+<html>
+  <body>
+    <div id="fp"></div>
+    <script>
+!function ($, window, document, gwFingerPrint, undefined) {
+	var SEP = "|",
+		PAIR = "\x3d",
+		DEV = "~",
+		ver = 1;
+	var ua = navigator.userAgent.toLowerCase();
+	var opera = 0 <= ua.indexOf("opera");
+	var ie = 0 <= ua.indexOf("msie");
+	var iemac = (ie && !opera) && 0 <= ua.indexOf("mac");
+	var moz = ua.indexOf("mozilla") && !ie && !opera;
+	var os = navigator.platform;
+
+	var browserFP = function() {
+		var t = ua + SEP + navigator.appVersion + SEP + navigator.platform;
+		ie ? (t += SEP + navigator.appMinorVersion + SEP + navigator.cpuClass + SEP + navigator.browserLanguage, t += SEP + ScriptEngineBuildVersion()) : moz && (t += SEP + navigator.language);
+		return t;
+	};
+
+	var displayFP = function() {
+		var t = "";
+		self.screen && (t += screen.colorDepth + SEP + screen.width + SEP + screen.height + SEP + screen.availHeight);
+		return t;
+	};
+
+	var stripIllegalChars = function(b) {
+		t = "";
+		b = b.toLowerCase();
+		for (i = 0; i < b.length; i++) "\n" != b.charAt(i) && "/" != b.charAt(i) && "\\" != b.charAt(i) ? t += b.charAt(i) : "\n" == b.charAt(i) && (t += "n");
+		return t;
+	};
+
+	var stripFullPath = function(b, a) {
+		fileName = b;
+		filenameStart = 0;
+		filenameStart = fileName.lastIndexOf(a);
+		if (0 > filenameStart) return b;
+		filenameFinish = fileName.length;
+		return fileName = fileName.substring(filenameStart + a.length, filenameFinish);
+	};
+
+	var softwareFP = function() {
+		var t = "";
+		var isFirst = !0;
+		var b = {
+			table : {},
+			put : function(v,k) {
+				this.table[k] = v;
+			},
+			get : function(k) {
+				return this.table[k];
+			},
+			containsKey : function(k) {
+				return this.table[k] !== undefined;
+			},
+		};
+		b.put("npnul32.dll", "def");
+		b.put("npqtplugin6.dll", "qt6");
+		b.put("npqtplugin5.dll", "qt5");
+		b.put("npqtplugin4.dll", "qt4");
+		b.put("npqtplugin3.dll", "qt3");
+		b.put("npqtplugin2.dll", "qt2");
+		b.put("npqtplugin.dll", "qt1");
+		b.put("nppdf32.dll", "pdf");
+		b.put("NPSWF32.dll", "swf");
+		b.put("NPJava11.dll", "j11");
+		b.put("NPJava12.dll", "j12");
+		b.put("NPJava13.dll", "j13");
+		b.put("NPJava32.dll", "j32");
+		b.put("NPJava14.dll", "j14");
+		b.put("npoji600.dll", "j61");
+		b.put("NPJava131_16.dll", "j16");
+		b.put("NPOFFICE.DLL", "mso");
+		b.put("npdsplay.dll", "wpm");
+		b.put("npwmsdrm.dll", "drm");
+		b.put("npdrmv2.dll", "drn");
+		b.put("nprjplug.dll", "rjl");
+		b.put("nppl3260.dll", "rpl");
+		b.put("nprpjplug.dll", "rpv");
+		b.put("npchime.dll", "chm");
+		b.put("npCortona.dll", "cor");
+		b.put("np32dsw.dll", "dsw");
+		b.put("np32asw.dll", "asw");
+		if (0 < navigator.plugins.length) {
+			key = moz = temp = "";
+			lastDir = "Plugins";
+			for (i = 0; i < navigator.plugins.length; i++)
+				plugin = navigator.plugins[i], moz = stripFullPath(plugin.filename,lastDir), 1 == isFirst ? (temp = (key = b.containsKey(moz)) ? temp + b.get(moz) : "", isFirst = !1) : temp = (key = b.containsKey(moz)) ? temp + (SEP + b.get(moz)) : temp + "";
+			t = stripIllegalChars(temp);
+		} else if (0 < navigator.mimeTypes.length)
+			for (key = "", i = 0; i < navigator.mimeTypes.length; i++) mimeType = navigator.mimeTypes[i], 1 == isFirst ? (t = (key = b.containsKey(mimeType)) ? t + (b.get(mimeType) + PAIR + mimeType) : t + ("unknown" + PAIR + mimeType), isFirst = !1) : (key = b.containsKey(mimeType)) ? t += SEP + b.get(mimeType) + PAIR + mimeType : temp += "";
+		else if (ie)
+			for (names = "abk wnt aol arb chs cht dht dhj dan dsh heb ie5 icw ibe iec ieh iee jap krn lan swf shw msn wmp obp oex net pan thi tks uni vtc vnm mvm vbs wfd".split(" "),
+				components = "7790769C-0471-11D2-AF11-00C04FA35D02 89820200-ECBD-11CF-8B85-00AA005B4340 47F67D00-9E55-11D1-BAEF-00C04FC2D130 76C19B38-F0C8-11CF-87CC-0020AFEECF20 76C19B34-F0C8-11CF-87CC-0020AFEECF20 76C19B33-F0C8-11CF-87CC-0020AFEECF20 9381D8F2-0288-11D0-9501-00AA00B911A5 4F216970-C90C-11D1-B5C7-0000F8051515 283807B5-2C60-11D0-A31D-00AA00B92C03 44BBA848-CC51-11CF-AAFA-00AA00B6015C 76C19B36-F0C8-11CF-87CC-0020AFEECF20 89820200-ECBD-11CF-8B85-00AA005B4383 5A8D6EE0-3E18-11D0-821E-444553540000 630B1DA0-B465-11D1-9948-00C04F98BBC9 08B0E5C0-4FCB-11CF-AAA5-00401C608555 45EA75A0-A269-11D1-B5BF-0000F8051515 DE5AED00-A4BF-11D1-9948-00C04F98BBC9 76C19B30-F0C8-11CF-87CC-0020AFEECF20 76C19B31-F0C8-11CF-87CC-0020AFEECF20 76C19B50-F0C8-11CF-87CC-0020AFEECF20 D27CDB6E-AE6D-11CF-96B8-444553540000 2A202491-F00D-11CF-87CC-0020AFEECF20 5945C046-LE7D-LLDL-BC44-00C04FD912BE 22D6F312-B0F6-11D0-94AB-0080C74C7E95 3AF36230-A269-11D1-B5BF-0000F8051515 44BBA840-CC51-11CF-AAFA-00AA00B6015C 44BBA842-CC51-11CF-AAFA-00AA00B6015B 76C19B32-F0C8-11CF-87CC-0020AFEECF20 76C19B35-F0C8-11CF-87CC-0020AFEECF20 CC2A9BA0-3BDD-11D0-821E-444553540000 3BF42070-B3B1-11D1-B5C5-0000F8051515 10072CEC-8CC1-11D1-986E-00A0C955B42F 76C19B37-F0C8-11CF-87CC-0020AFEECF20 08B0E5C0-4FCB-11CF-AAA5-00401C608500 4F645220-306D-11D2-995D-00C04F98BBC9 73FA19D0-2D75-11D2-995D-00C04F98BBC9".split(" "),
+				document.body.addBehavior("#default#clientCaps"), i = 0; i < components.length; i++) ver = activeXDetect(components[i]), b = names[i], ver ? 1 == isFirst ? (t += b + PAIR + ver, isFirst = !1) : t += SEP + b + PAIR + ver : (t += "", isFirst = !1);
+		return t;
+	};
+
+	var timezoneFP = function() {
+		return (new Date).getTimezoneOffset() / 60 * -1;
+	};
+
+	var languageFP = function() {
+		var b = "undefined" != typeof navigator.language ? "lang" + PAIR + navigator.language + SEP : "undefined" != typeof navigator.browserLanguage ? "lang" + PAIR + navigator.browserLanguage + SEP : "lang" + PAIR + SEP;
+		"undefined" != typeof navigator.systemLanguage ? b += "syslang" + PAIR + navigator.systemLanguage + SEP : b += "syslang" + PAIR + SEP;
+		"undefined" != typeof navigator.userLanguage ? b += "userlang" + PAIR + navigator.userLanguage : b += "userlang" + PAIR;
+		return b;
+	};
+
+	var javaFP = function() {
+		return navigator.javaEnabled() ? 1 : 0;
+	};
+
+	var cookieFP = function() {
+		var b = navigator.cookieEnabled ? 1 : 0;
+		"undefined" != typeof navigator.cookieEnabled || b || (document.cookie = "testcookie", b = -1 != document.cookie.indexOf("testcookie") ? 1 : 0);
+		return b;
+	};
+
+	var canvasFP = function() {
+		// TODO: try canvas technique
+		return "";
+	};
+
+	var fontFP = function() {
+		// TODO: try font metric technique
+		return "";
+	};
+
+	gwFingerPrint.getFingerPrint = function() {
+		// join the finger prints to single string
+		return "_bSRFp_" + browserFP() + "_dSPFp_" + displayFP() + "_sFTFp_" + softwareFP() + "_tZNFp_" + timezoneFP() + "_lNGFp_" + languageFP()
+			+ "_jVRFp_" + javaFP() + "_cKNFp_" + cookieFP() + "_cVSFp_" + canvasFP() + "_fNTFp_" + fontFP();
+	};
+
+	gwFingerPrint.init = function() {
+		// TODO: do something to check if this script is actually run
+	};
+}(jQuery, this, this.document, window.gwFingerPrint = window.gwFingerPrint || {});
+var eDiv = document.getelementById("fp");
+      eDiv.innnerText = gwFingerPrint.getFingerPrint();
+    </script>
+  </body>
+</html>
